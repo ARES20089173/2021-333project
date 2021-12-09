@@ -201,7 +201,7 @@ export default function Sudoku() {
     const [maps, setMap] = useState(map3);
     const [mapend, setMapend] = useState([]);
     const [displayend, setDisplay] = useState(false)
-    const [displaycalculate,setdisplaycalculate]=useState(false)
+    const [displaycalculate, setdisplaycalculate] = useState(false)
     const handledatachange = (detailindex, index) => e => {
         console.log('detailindex: ' + detailindex);
         console.log('property detail: ' + e.target.value);
@@ -212,6 +212,7 @@ export default function Sudoku() {
         console.log('property detail: ' + newArr);
         setMap(newArr)
     }
+
     function start_pos(m, sized, checklist = []) {
         // """ 功能：返回第一个空白格的位置坐标"""
         for (var x = 0; x < sized * sized; x++) {
@@ -242,31 +243,33 @@ export default function Sudoku() {
             <div style={{ textAlign: 'center' }}>
                 <div > <label onClick={() => Start(maps, size)} >请选择你想要的数独size: {random}</label></div>
 
-                <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} > <div onClick={() => setMap(map2)} ><Button onClick={() => setSize(2)} variant="outlined" style={{ width: "25%" }}>2x2</Button></div></div></div>
-                <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} > <div onClick={() => setMap(map3)} > <Button variant="outlined" onClick={() => setSize(3)} style={{ width: "25%" }}>3x3</Button></div></div></div>
-                <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} >  <div onClick={() => setMap(map4)} > <Button variant="outlined" onClick={() => setSize(4)} style={{ width: "25%" }}>4x4</Button></div></div></div>
-
-                <div onClick={() => setdisplaycalculate(false)} >   <div onClick={() => setDisplay(true)} style={{ display:displaycalculate ==false?'none': 'block'}} ><Button onClick={() => Start(maps, size)} variant="outlined" color="error" >开始计算</Button> </div></div>
-                <div style={{ display: displayend == true ? 'block':'none'  }}><Button onClick={() => window.location.reload()} variant="outlined" color="error" >重新开始</Button> </div>
+                <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} > <div onClick={() => setMap(map2)} ><Button onClick={() => setSize(2)} variant="outlined" style={{ width: "25%" }}>4x4</Button></div></div></div>
+                <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} > <div onClick={() => setMap(map3)} > <Button variant="outlined" onClick={() => setSize(3)} style={{ width: "25%" }}>9x9</Button></div></div></div>
+                <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} >  <div onClick={() => setMap(map4)} > <Button variant="outlined" onClick={() => setSize(4)} style={{ width: "25%" }}>16x16</Button></div></div></div>
                 <div>{size}</div>
                 <Grid xs={12} container justifyContent='center' alignItems='center'>
-                    <table style={{ display: size == 2 ? 'block' : 'none', border: '1px solid white' }}>
-                        {[0, 1, 2, 3].map((theD, theI) => (
-                            maps.slice(theD, theD + 1).map((item, index) => (
-                                <tr>
-                                    {item.map((detail, detailindex) => (
-                                        theI % 2 == 1 ?
-                                            <th style={{ borderRight: detailindex % 2 == 1 ? '5px solid black' : '', borderLeft: detailindex % 2 == 0 ? '5px solid black' : '', borderBottom: '5px solid black', height: '30px', width: '30px' }} key={detailindex}>
-                                                <input onChange={handledatachange(detailindex, theI)} type="text" defaultValue={detail == 0 ? ' ' : detail} style={{ border: '1px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
-                                            :
-                                            <th style={{ borderRight: detailindex % 2 == 1 ? '5px solid black' : '', borderLeft: detailindex % 2 == 0 ? '5px solid black' : '', borderBottom: '', borderTop: theI % 2 == 0 ? '5px solid black' : '', height: '30px', width: '30px' }} key={detailindex}>
-                                                <input onChange={handledatachange(detailindex, theI)} type="text" defaultvalue={detail == 0 ? ' ' : detail} style={{ border: '1px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
+                    <form style={{ display: size == 2 ? 'block' : 'none', }} action="#">
+                        <table style={{ border: '1px solid white' }}>
+                            {[0, 1, 2, 3].map((theD, theI) => (
+                                maps.slice(theD, theD + 1).map((item, index) => (
+                                    <tr>
+                                        {item.map((detail, detailindex) => (
+                                            theI % 2 == 1 ?
+                                                <th style={{ borderRight: detailindex % 2 == 1 ? '5px solid black' : '', borderLeft: detailindex % 2 == 0 ? '5px solid black' : '', borderBottom: '5px solid black', height: '30px', width: '30px' }} key={detailindex}>
+                                                    <input onChange={handledatachange(detailindex, theI)} type="number" min="0" max="4"onKeyUp="if(this.value>99){this.value='99';}else if(this.value<0){this.value='0';}" defaultValue={detail == 0 ? ' ' : detail} style={{ border: '1px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
+                                                :
+                                                <th style={{ borderRight: detailindex % 2 == 1 ? '5px solid black' : '', borderLeft: detailindex % 2 == 0 ? '5px solid black' : '', borderBottom: '', borderTop: theI % 2 == 0 ? '5px solid black' : '', height: '30px', width: '30px' }} key={detailindex}>
+                                                    <input onChange={handledatachange(detailindex, theI)} type="number"  min="0" max="4" defaultvalue={detail == 0 ? ' ' : detail} style={{ border: '1px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
 
-                                    ))}
-                                </tr>
-                            ))))
-                        }
-                    </table>
+                                        ))}
+                                    </tr>
+                                ))))
+                            }
+                        </table>
+                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="核对输入范围"></input></div>
+                    </form>
+
+
                     <Typography variant="h4" color='red' style={{ display: displayend == true && size == 2 ? 'block' : 'none' }}>result&gt; &gt; &gt; &gt; </Typography>
                     <table style={{ display: displayend == true && size == 2 ? 'block' : 'none', border: '1px solid white' }}>
                         {[0, 1, 2, 3].map((theD, theI) => (
@@ -285,23 +288,27 @@ export default function Sudoku() {
                     </table>
                 </Grid>
                 <Grid xs={12} container justifyContent='center' alignItems='center'>
-                    <table style={{ display: size == 3 ? 'block' : 'none', border: '1px solid white' }}>
-                        {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((theD, theI) => (
-                            maps.slice(theD, theD + 1).map((item, index) => (
-                                <tr>
-                                    {item.map((detail, detailindex) => (
-                                        theI % 3 == 2 ?
-                                            <th style={{ borderRight: detailindex % 3 == 2 ? '5px solid black' : '', borderLeft: detailindex % 3 == 0 ? '5px solid black' : '', borderBottom: '5px solid black', height: '30px', width: '30px' }} key={detailindex}>
-                                                <input onChange={handledatachange(detailindex, theI)} type="text" defaultValue={detail == 0 ? ' ' : detail} style={{ border: '5px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
-                                            :
-                                            <th style={{ borderRight: detailindex % 3 == 2 ? '5px solid black' : '', borderLeft: detailindex % 3 == 0 ? '5px solid black' : '', borderBottom: '', borderTop: theI % 3 == 0 ? '5px solid black' : '', height: '30px', width: '30px' }} key={detailindex}>
-                                                <input onChange={handledatachange(detailindex, theI)} type="text" defaultvalue={detail == 0 ? ' ' : detail} style={{ border: '5px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
+                    <form style={{ display: size == 3 ? 'block' : 'none', }} action="#">
+                        <table style={{ display: size == 3 ? 'block' : 'none', border: '1px solid white' }}>
+                            {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((theD, theI) => (
+                                maps.slice(theD, theD + 1).map((item, index) => (
+                                    <tr>
+                                        {item.map((detail, detailindex) => (
+                                            theI % 3 == 2 ?
+                                                <th style={{ borderRight: detailindex % 3 == 2 ? '5px solid black' : '', borderLeft: detailindex % 3 == 0 ? '5px solid black' : '', borderBottom: '5px solid black', height: '30px', width: '30px' }} key={detailindex}>
+                                                    <input onChange={handledatachange(detailindex, theI)} type="number" min="1" max="9" defaultValue={detail == 0 ? ' ' : detail} style={{ border: '5px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
+                                                :
+                                                <th style={{ borderRight: detailindex % 3 == 2 ? '5px solid black' : '', borderLeft: detailindex % 3 == 0 ? '5px solid black' : '', borderBottom: '', borderTop: theI % 3 == 0 ? '5px solid black' : '', height: '30px', width: '30px' }} key={detailindex}>
+                                                    <input onChange={handledatachange(detailindex, theI)} type="number" min="1" max="9" defaultvalue={detail == 0 ? ' ' : detail} style={{ border: '5px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
 
-                                    ))}
-                                </tr>
-                            ))))
-                        }
-                    </table>
+                                        ))}
+                                    </tr>
+                                ))))
+                            }
+                        </table>
+                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="核对输入范围"></input></div>
+                      </form>
+
                     <Typography variant="h4" color='red' style={{ display: displayend == true && size == 3 ? 'block' : 'none' }}>result&gt; &gt; &gt; &gt; </Typography>
                     <table style={{ display: displayend == true && size == 3 ? 'block' : 'none', border: '1px solid white' }}>
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((theD, theI) => (
@@ -320,23 +327,26 @@ export default function Sudoku() {
                     </table>
                 </Grid>
                 <Grid xs={12} container justifyContent='center' alignItems='center'>
-                    <table style={{ display: size == 4 ? 'block' : 'none', border: '1px solid white' }}>
-                        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((theD, theI) => (
-                            maps.slice(theD, theD + 1).map((item, index) => (
-                                <tr>
-                                    {item.map((detail, detailindex) => (
-                                        theI % 4 == 3 ?
-                                            <th style={{ borderRight: detailindex % 4 == 3 ? '5px solid black' : '', borderLeft: detailindex % 4 == 0 ? '5px solid black' : '', borderBottom: '5px solid black', height: '30px', width: '30px' }} key={detailindex}>
-                                                <input onChange={handledatachange(detailindex, theI)} type="text" defaultValue={detail == 0 ? ' ' : detail} style={{ border: '5px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
-                                            :
-                                            <th style={{ borderRight: detailindex % 4 == 3 ? '5px solid black' : '', borderLeft: detailindex % 4 == 0 ? '5px solid black' : '', borderBottom: '', borderTop: theI % 4 == 0 ? '5px solid black' : '', height: '30px', width: '30px' }} key={detailindex}>
-                                                <input onChange={handledatachange(detailindex, theI)} type="text" defaultvalue={detail == 0 ? ' ' : detail} style={{ border: '5px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
+                    <form style={{ display: size == 4 ? 'block' : 'none', }} action="#">
+                        <table style={{ border: '1px solid white' }}>
+                            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((theD, theI) => (
+                                maps.slice(theD, theD + 1).map((item, index) => (
+                                    <tr>
+                                        {item.map((detail, detailindex) => (
+                                            theI % 4 == 3 ?
+                                                <th style={{ borderRight: detailindex % 4 == 3 ? '5px solid black' : '', borderLeft: detailindex % 4 == 0 ? '5px solid black' : '', borderBottom: '5px solid black', height: '30px', width: '30px' }} key={detailindex}>
+                                                    <input onChange={handledatachange(detailindex, theI)}type="number" min="1" max="16" defaultValue={detail == 0 ? ' ' : detail} style={{ border: '1px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
+                                                :
+                                                <th style={{ borderRight: detailindex % 4 == 3 ? '5px solid black' : '', borderLeft: detailindex % 4 == 0 ? '5px solid black' : '', borderBottom: '', borderTop: theI % 4 == 0 ? '5px solid black' : '', height: '30px', width: '30px' }} key={detailindex}>
+                                                    <input onChange={handledatachange(detailindex, theI)}  type="number" min="1" max="16" defaultvalue={detail == 0 ? ' ' : detail} style={{ border: '1px solid white', height: '30px', width: '30px', textAlign: 'center' }} /></th>
 
-                                    ))}
-                                </tr>
-                            ))))
-                        }
-                    </table>
+                                        ))}
+                                    </tr>
+                                ))))
+                            }
+                        </table>
+                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="核对输入范围"></input></div>
+                     </form>
                     <Typography variant="h4" color='red' style={{ display: displayend == true && size == 4 ? 'block' : 'none' }}>result&gt; &gt; &gt; &gt; </Typography>
                     <table style={{ display: displayend == true && size == 4 ? 'block' : 'none', border: '1px solid white' }}>
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((theD, theI) => (
@@ -353,7 +363,10 @@ export default function Sudoku() {
                             ))))
                         }
                     </table>
+                  
                 </Grid>
+                <div onClick={() => setdisplaycalculate(false)} >   <div onClick={() => setDisplay(true)} style={{ display: displaycalculate == false ? 'none' : 'block' }} ><Button onClick={() => Start(maps, size)} variant="outlined" color="error" >开始计算</Button> </div></div>
+                    <div style={{ display: displayend == true ? 'block' : 'none' }}><Button onClick={() => window.location.reload()} variant="outlined" color="error" >重新开始</Button> </div>
 
             </div>
         </body>
