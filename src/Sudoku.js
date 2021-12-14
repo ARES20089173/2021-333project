@@ -7,7 +7,7 @@ export default function Sudoku() {
     const [mapsize, setmapSize] = useState();
     const [random, setRandom] = useState();
     var map2 = [
-        [1, 2, 3, 0],
+        [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]
@@ -85,7 +85,7 @@ export default function Sudoku() {
         }
         return [-1, -1]
     }
-    function list(iterable) {
+    function tolist(iterable) {
         return [...iterable];
     }
 
@@ -115,30 +115,31 @@ export default function Sudoku() {
         var g = [];
         for (var item in set)
             g.push(item);
-        // console.log("set grid: ")
-        // console.log(g)
+        console.log("set grid: ")
+        console.log(g)
 
         for (var d2 = 0; d2 < m[x].length; d2++) {
-            // console.log(m[x][d2])
-            set2[m[x][d2]] = true;
+            console.log(m[x][d2])
+            set2[m[x][d2]] = null;
         }
         var Themx = [];
         for (var itemed in set2)
             Themx.push(itemed);
-        // console.log("set m[x]: ")
-        // console.log(Themx)
+        console.log("set m[x]: ")
+        console.log(Themx)
 
 
         for (var d3 = 0; d3 < m[x].length; d3++) {
-            // console.log(m[d3][y])
-            set3[m[d3][y]] = true;
+            console.log(m[d3][y])
+            set3[m[d3][y]] = null;
+            //console.log("m:d3:y   " + m + d3 + y)
         }
         var Themy = [];
-        // console.log(set3)
+        console.log(set3)
         for (var items in set3)
             Themy.push(items);
-        // console.log('set m[y]')
-        // console.log(Themy)
+        console.log('set m[y]:')
+        console.log(Themy)
 
         var mapx = []
         for (let x1 = 1; x1 < sized * sized + 1; x1++) {
@@ -147,6 +148,7 @@ export default function Sudoku() {
         // console.log("mapx value:" + mapx)
         var v = [];
         // var test=mapx-g-Themx-Themy
+
         for (const testdata of mapx) {
             if (!g.includes(testdata.toString()) && !Themx.includes(testdata.toString()) && !Themy.includes(testdata.toString())) {
                 // console.log(testdata)
@@ -155,7 +157,8 @@ export default function Sudoku() {
         }
         // console.log("v is coming")
         // console.log(list(v))
-        return list(v)
+        console.log("toList: " + tolist(v))
+        return tolist(v)
     }
 
 
@@ -241,7 +244,7 @@ export default function Sudoku() {
     return (
         <body style={{ backgroundColor: 'rgb(146, 168, 209)', height: '100%' }}>
             <div style={{ textAlign: 'center' }}>
-                <div > <label onClick={() => Start(maps, size)} >请选择你想要的数独size: {random}</label></div>
+                <div > <label onClick={() => Start(maps, size)} >Please choose the sudoku size you wanna solve: {random}</label></div>
 
                 <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} > <div onClick={() => setMap(map2)} ><Button onClick={() => setSize(2)} variant="outlined" style={{ width: "25%" }}>4x4</Button></div></div></div>
                 <div onClick={() => setDisplay(false)} style={{ display: displayend == true ? 'none' : 'block' }} > <div onClick={() => setdisplaycalculate(true)} > <div onClick={() => setMap(map3)} > <Button variant="outlined" onClick={() => setSize(3)} style={{ width: "25%" }}>9x9</Button></div></div></div>
@@ -266,7 +269,7 @@ export default function Sudoku() {
                                 ))))
                             }
                         </table>
-                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="核对输入范围"></input></div>
+                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="Check if input the wrong number"></input></div>
                     </form>
 
 
@@ -306,7 +309,7 @@ export default function Sudoku() {
                                 ))))
                             }
                         </table>
-                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="核对输入范围"></input></div>
+                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="Check if input the wrong number"></input></div>
                       </form>
 
                     <Typography variant="h4" color='red' style={{ display: displayend == true && size == 3 ? 'block' : 'none' }}>result&gt; &gt; &gt; &gt; </Typography>
@@ -345,7 +348,7 @@ export default function Sudoku() {
                                 ))))
                             }
                         </table>
-                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="核对输入范围"></input></div>
+                        <div  style={{ display: displayend == true ? 'none' : 'block' }} > <input type="submit" value="Check if input the wrong number"></input></div>
                      </form>
                     <Typography variant="h4" color='red' style={{ display: displayend == true && size == 4 ? 'block' : 'none' }}>result&gt; &gt; &gt; &gt; </Typography>
                     <table style={{ display: displayend == true && size == 4 ? 'block' : 'none', border: '1px solid white' }}>
@@ -365,8 +368,8 @@ export default function Sudoku() {
                     </table>
                   
                 </Grid>
-                <div onClick={() => setdisplaycalculate(false)} >   <div onClick={() => setDisplay(true)} style={{ display: displaycalculate == false ? 'none' : 'block' }} ><Button onClick={() => Start(maps, size)} variant="outlined" color="error" >开始计算</Button> </div></div>
-                    <div style={{ display: displayend == true ? 'block' : 'none' }}><Button onClick={() => window.location.reload()} variant="outlined" color="error" >重新开始</Button> </div>
+                <div onClick={() => setdisplaycalculate(false)} >   <div onClick={() => setDisplay(true)} style={{ display: displaycalculate == false ? 'none' : 'block' }} ><Button onClick={() => Start(maps, size)} variant="outlined" color="error" >Start Calculation</Button> </div></div>
+                    <div style={{ display: displayend == true ? 'block' : 'none' }}><Button onClick={() => window.location.reload()} variant="outlined" color="error" >Restart</Button> </div>
 
             </div>
         </body>
